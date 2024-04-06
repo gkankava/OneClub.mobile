@@ -5,6 +5,8 @@ import NavigationHelper from '../helpers/NavigationHelper';
 import {Stacks} from '../navigation/consts/stacks';
 import {Screens} from '../navigation/consts/screens';
 import {StorageHelper} from '../helpers/StorageHelper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {setBearerToker} from '../api/axios';
 
 type Props = {};
 
@@ -15,7 +17,10 @@ const InitScreen = (props: Props) => {
     let token = await StorageHelper.get('authToken');
     setLoading(false);
     // validate token and redirect
-    token && NavigationHelper.navigate(Stacks.MAIN_STACK);
+    if (token) {
+      await setBearerToker(token);
+      NavigationHelper.navigate(Stacks.MAIN_STACK);
+    }
   };
   useEffect(() => {
     syncStore();

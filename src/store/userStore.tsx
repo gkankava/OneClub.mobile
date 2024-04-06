@@ -1,6 +1,7 @@
 import {AxiosError, AxiosResponse} from 'axios';
 import {authLogin, authSignup} from '../api/lib';
 import {StorageHelper} from '../helpers/StorageHelper';
+import {setBearerToker} from '../api/axios';
 
 const initialState = {
   loading: false,
@@ -31,6 +32,7 @@ export const userStore = (set: any, get: any) => ({
             data: {...res.data.user},
           },
         }));
+        setBearerToker(res.data.token);
         StorageHelper.set('authToken', res.data.token);
         callback();
       })
@@ -64,6 +66,7 @@ export const userStore = (set: any, get: any) => ({
             data: {...res.data.user},
           },
         }));
+        setBearerToker(res.data.token);
         StorageHelper.set('authToken', res.data.token);
         callback();
       })
